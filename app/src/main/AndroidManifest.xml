@@ -15,7 +15,7 @@
         <activity android:name=".HomeActivity"
             android:label="@string/title_home"></activity>
         <activity
-            android:name=".Client"
+            android:name=".Recommend"
             android:label="@string/title_activity_client" />
         <activity android:name=".LoginActivity">
             <intent-filter>
