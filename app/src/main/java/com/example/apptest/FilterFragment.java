@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+@Deprecated
 public class FilterFragment extends Fragment {
 
     private static final String TAG = "FilterFragment";

@@ -57,6 +57,9 @@ public class Client extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
+
     }
 
 //    private void setupViewPager(ViewPager viewPager) {
