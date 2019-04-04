@@ -6,7 +6,7 @@
         android:capitalize="words"
         android:defaultValue="@string/pref_default_display_name"
         android:inputType="textCapWords"
-        android:key="example_text"
+        android:key="display_name"
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
@@ -14,11 +14,12 @@
 
     <SwitchPreference
         android:defaultValue="false"
-        android:key="example_switch"
+        android:key="proximity_switch"
         android:summary="@string/pref_description_proximity"
         android:title="@string/pref_title_proximity" />
 
     <EditTextPreference
+        android:key="proximity_val"
         android:defaultValue="0"
         android:inputType="numberDecimal"
         android:maxLines="1"

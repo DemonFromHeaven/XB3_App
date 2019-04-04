@@ -11,15 +11,9 @@ import java.util.List;
 public class SectionsAdapter extends FragmentPagerAdapter {
 
     private final List<Fragment> mFragmentList = new ArrayList<>();
-    private final List<String> mFragmentTitleList = new ArrayList<>();
 
     SectionsAdapter(FragmentManager fm) {
         super(fm);
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mFragmentTitleList.get(position);
     }
 
     @Override
@@ -32,8 +26,7 @@ public class SectionsAdapter extends FragmentPagerAdapter {
         return mFragmentList.size();
     }
 
-    void addFrag(Fragment frag, String title) {
+    void addFrag(Fragment frag) {
         mFragmentList.add(frag);
-        mFragmentTitleList.add(title);
     }
 }
