@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class Client extends AppCompatActivity {
+public class Recommend extends AppCompatActivity {
 
     private SectionsAdapter mSectionsAdapter;
     private ViewPager mViewPager;

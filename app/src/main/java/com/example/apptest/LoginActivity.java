@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity{
 
                 //TODO: Store login credentials and retrieve
                 if (username.getText().toString().compareTo("2xb3") == 0 && password.getText().toString().compareTo("2xb3") == 0) {
-                    startActivity(new Intent(LoginActivity.this, Client.class));
+                    startActivity(new Intent(LoginActivity.this, Recommend.class));
                 } else {
                     Toast.makeText(getApplicationContext(), "Incorrect Username or Password", Toast.LENGTH_SHORT).show();
                 }
