@@ -24,7 +24,6 @@ public class Restaurant implements Comparable<Restaurant> {
         this.stars = stars;
         this.price = price;
         this.reviewCount = reviewCount;
-        this.reviews = new ArrayList<Review>();
 
     }
 
