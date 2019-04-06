@@ -1,13 +1,16 @@
 package com.example.apptest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -19,25 +22,67 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ * Default Activity after Log In (Home)
+ */
 public class HomeActivity extends AppCompatActivity{
+
+    private RestaurantAdapter adapter;
+
+    private void launchSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    return true;
+                case R.id.navigation_filter:
+                    return true;
+                case R.id.navigation_settings:
+                    launchSettings();
+                    return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_layout);
 
-        Restaurant r1 = new Restaurant("Restaurant 1", "Address 1", "4.0");
-        Restaurant r2 = new Restaurant("Restaurant 2", "Address 2", "3.0");
-        Restaurant r3 = new Restaurant("Restaurant 3", "Address 3", "2.0");
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        Restaurant[] rArray = new Restaurant[5];
+
+        //Example Sample
+        for (int i = 0; i < rArray.length; i++) {
+            rArray[i] = new Restaurant("Restaurant " + i, "ID " + i,
+                    new Location("Address " + i,
+                            "City " + i,
+                            "State " + i,
+                            -10.0*(i+1),
+                            10.0*(i+1)), 4.0*(i+1)%5, 5*(i+1)%6, 100*(i+1));
+        }
 
         EditText searchBar = findViewById(R.id.search_bar);
         ArrayList<Restaurant> restaurantNames = new ArrayList<>();
-        restaurantNames.add(r1);
-        restaurantNames.add(r2);
-        restaurantNames.add(r3);
+
+        for (Restaurant r:
+             rArray) {
+            restaurantNames.add(r);
+        }
+
         ListView searchResults = findViewById(R.id.search_results);
 
-        RestaurantAdapter adapter = new RestaurantAdapter(this, R.layout.adapter_list_layout, restaurantNames);
+        adapter = new RestaurantAdapter(this, R.layout.adapter_list_layout, restaurantNames);
         searchResults.setAdapter(adapter);
 
         searchBar.addTextChangedListener(new TextWatcher() {
@@ -48,7 +93,7 @@ public class HomeActivity extends AppCompatActivity{
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                (HomeActivity.this).adapter.getFilter().filter(charSequence);
             }
 
             @Override
@@ -79,10 +124,8 @@ public class HomeActivity extends AppCompatActivity{
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             String name = getItem(position).getName();
-            String address = getItem(position).getAddress();
-            String rating = getItem(position).getRating();
-
-            Restaurant r = new Restaurant(name, address, rating);
+            String address = getItem(position).getLocation().getAddress();
+            String rating = Double.toString(getItem(position).getStars());
 
             final View result;
 

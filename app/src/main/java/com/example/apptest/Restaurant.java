@@ -81,29 +81,33 @@ public class Restaurant implements Comparable<Restaurant> {
      * @return The Restaurant object
      */
     public static Restaurant fromJSON(String jsonString) {
-        // Make a JSON object from the current line
-        JSONObject currObj = new JSONObject(jsonString);
+
         Restaurant restaurant;
-        // Extract the desired parameters from the object
-        String id = (String) currObj.get("business_id");
-        String name = (String) currObj.get("name");
-        Location loc = new Location((String) currObj.get("address"), (String) currObj.get("city"),
-                (String) currObj.get("state"), currObj.getDouble("latitude"), currObj.getDouble("longitude"));
-        double stars = currObj.getDouble("stars");
-        int reviewCount = currObj.getInt("review_count");
 
-        // Extract the string data of the attributes parameter
-        String attributesString = currObj.get("attributes").toString();
-
-        // Try to convert this string data into another JSON object
-        // If this succeeds, get the price field
-        // If it fails, then this isn't a restaurant
         try {
+            // Make a JSON object from the current line
+            JSONObject currObj = new JSONObject(jsonString);
+
+            // Extract the desired parameters from the object
+            String id = (String) currObj.get("business_id");
+            String name = (String) currObj.get("name");
+            Location loc = new Location((String) currObj.get("address"), (String) currObj.get("city"),
+                    (String) currObj.get("state"), currObj.getDouble("latitude"), currObj.getDouble("longitude"));
+            double stars = currObj.getDouble("stars");
+            int reviewCount = currObj.getInt("review_count");
+
+            // Extract the string data of the attributes parameter
+            String attributesString = currObj.get("attributes").toString();
+
+            // Try to convert this string data into another JSON object
+            // If this succeeds, get the price field
+            // If it fails, then this isn't a restaurant
             JSONObject attributes = new JSONObject(attributesString);
             int price = attributes.getInt("RestaurantsPriceRange2");
             restaurant = new Restaurant(name, id, loc, stars, price, reviewCount);
-        } catch (JSONException jsone) {
+        } catch (Exception e) {
             restaurant = null;
+            e.printStackTrace();
         }
         return restaurant;
     }
@@ -115,25 +119,32 @@ public class Restaurant implements Comparable<Restaurant> {
      */
     public String toJSON() {
 
-        JSONObject attr = new JSONObject().put("RestaurantsPriceRange2", this.price);
+        String rep;
 
-        String rep = new JSONStringer()
-                .object()
-                .key("business_id").value(this.id)
-                .key("name").value(this.name)
-                .key("stars").value(this.stars)
-                .key("review_count").value(this.reviewCount)
-                .key("address").value(this.getLocation().getAddress())
-                .key("city").value(this.getLocation().getCity())
-                .key("state").value(this.getLocation().getState())
-                .key("latitude").value(this.getLocation().getLatitude())
-                .key("longitude").value(this.getLocation().getLongitude())
-                .key("attributes").value(attr)
-                .endObject()
-                .toString();
+        try {
+
+            JSONObject attr = new JSONObject().put("RestaurantsPriceRange2", this.price);
+
+            rep = new JSONStringer()
+                    .object()
+                    .key("business_id").value(this.id)
+                    .key("name").value(this.name)
+                    .key("stars").value(this.stars)
+                    .key("review_count").value(this.reviewCount)
+                    .key("address").value(this.getLocation().getAddress())
+                    .key("city").value(this.getLocation().getCity())
+                    .key("state").value(this.getLocation().getState())
+                    .key("latitude").value(this.getLocation().getLatitude())
+                    .key("longitude").value(this.getLocation().getLongitude())
+                    .key("attributes").value(attr)
+                    .endObject()
+                    .toString();
+        } catch (Exception e) {
+            rep = null;
+            e.printStackTrace();
+        }
 
         return rep;
-
     }
 
 }
